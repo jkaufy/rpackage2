@@ -1,0 +1,20 @@
+Package: rpackage2
+Type: Package
+Title: *TODO* Clustering Algorithms (Binary Segmentation and Dynamic Programming)
+Version: 1.0
+Date: 2021-09-27
+Author: Jacob Kaufman
+Maintainer: Jacob Kaufman <jmk478@nau.edu>
+Description: This package is a project for my Unsupervised Learning course.
+             TODO 
+License: GPL (>= 2)
+Encoding: UTF-8
+Depends:
+    R(>= 3.5.0)
+Imports:
+    mvtnorm,
+    Rcpp (>= 1.0.7)
+LinkingTo: Rcpp
+RoxygenNote: 7.1.2
+Suggests: 
+    testthat
