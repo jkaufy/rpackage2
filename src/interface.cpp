@@ -1,5 +1,5 @@
 #include <Rcpp.h>
-#include "kmeans.h"
+#include "dynprog.h"
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -28,7 +28,7 @@ List dynprog_interface
   error_ptr = &error;
   IntegerVector cluster_vec(N_data);
   int *cluster_ptr = &cluster_vec[0];
-  int status = kmeans
+  int status = dynprog
     (N_data,
      clusters,
      N_features,
