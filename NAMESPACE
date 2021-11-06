@@ -1,4 +1,4 @@
 useDynLib(rpackage2, .registration=TRUE)
+export(BINSEG)
 importFrom(Rcpp, evalCpp)
 exportPattern("^[[:alpha:]]+")
-export(BINSEG)

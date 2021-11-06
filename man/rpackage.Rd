@@ -7,8 +7,10 @@
 }
 \description{
   This package is a project for my Unsupervised Learning course.This package 
-  contains clustering alogrithms for Kmeans and Gaussian Mixture Models (GMM). 
-  Kmeans is coded using c++ and rcpp and GMM is coded using R. 
+  contains segmentations alogrithms for Binary Segmentation and Dynamic 
+  Programming.
+  Dynamic Programming is coded using c++ and rcpp and Binary Segmentation 
+  is coded using R and is not working. 
 }
 \details{
   This section should provide a more detailed overview of how to use the
@@ -19,4 +21,4 @@ Jacob Kaufman
 
 Maintainer: Jacob Kaufman <jmk478@nau.edu>
 }
-\keyword{ clustering }
+\keyword{ segmentation }

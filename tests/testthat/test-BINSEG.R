@@ -7,5 +7,5 @@ test_that("BINSEG output vector has reasonable size/values", {
   data.dt <- nb.dt[profile.id==proifle_id & chromosome==chromosome_num]
   num_segs <- 20
   my.binseg.result <- BINSEG(data.dt, num_segs)
+  expect_equal(length(my.binseg.result), num_segs)
 })
-

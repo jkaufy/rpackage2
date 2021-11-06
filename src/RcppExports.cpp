@@ -11,14 +11,14 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // dynprog_interface
-NumericMatrix dynprog_interface(NumericVector data_mat, int max_segments);
-RcppExport SEXP _rpackage2_dynprog_interface(SEXP data_matSEXP, SEXP max_segmentsSEXP) {
+NumericMatrix dynprog_interface(NumericVector data_vec, int max_segments);
+RcppExport SEXP _rpackage2_dynprog_interface(SEXP data_vecSEXP, SEXP max_segmentsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type data_mat(data_matSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type data_vec(data_vecSEXP);
     Rcpp::traits::input_parameter< int >::type max_segments(max_segmentsSEXP);
-    rcpp_result_gen = Rcpp::wrap(dynprog_interface(data_mat, max_segments));
+    rcpp_result_gen = Rcpp::wrap(dynprog_interface(data_vec, max_segments));
     return rcpp_result_gen;
 END_RCPP
 }
