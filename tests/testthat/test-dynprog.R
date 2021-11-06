@@ -9,8 +9,8 @@ test_that("Dyanmic Programming output vector has reasonable size/values", {
   }
   library(data.table)
   zip.dt <- data.table::fread(destfile)
-  sequence_id <- 20167.22
-  selected.dt <- zip.dt[sequenceID == sequence_id,]
+  sequence_id <- "20167.22"
+  selected.dt <- zip.dt[zip.dt$sequenceID == sequence_id,]
   logratio <- as.numeric(selected.dt[["logratio"]])
   
   max_segments <- 3
