@@ -1,4 +1,4 @@
-test_that("KMEANS output vector has reasonable size/values", {
+test_that("Dyanmic Programming output vector has reasonable size/values", {
   destfile <- "data-for-LOPART-signals.csv.gz"
   file.url = paste0(
     "https://raw.githubusercontent.com/tdhock/LOPART-paper/master/",

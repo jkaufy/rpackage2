@@ -10,7 +10,7 @@
   Computes Dynamic Programming on a numeric vector up to max segements
 }
 \usage{
-dynprog_interface(data_mat, clusters)
+dynprog_interface(data_vec, max_segments)
 }
 \arguments{
 \item{data_vec}{A numeric data vector size (n)}
