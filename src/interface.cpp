@@ -3,50 +3,69 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List dynprog_interface
-(NumericMatrix data_mat, int clusters) {
-  int N_data = data_mat.nrow();
-  int N_features = data_mat.ncol();
-  NumericMatrix centers_mat(clusters, N_features);
-  NumericMatrix mean_clusters(clusters,N_features);
-  NumericVector cluster_totals(clusters);
+NumericMatrix dynprog_interface
+(NumericVector data_vec, int max_segments) {
+  int N_data = data_vec.length();
   
+  NumericVector data_i(N_data);
+  NumericVector cum_vec(N_data);
+  NumericVector last_loss(N_data);
+  NumericVector possible_end(N_data);
+  NumericVector sum_segs(N_data);
   
-  if(N_features != data_mat.ncol()){
-    Rcpp::stop("number of columns in data and centers should be the same");
+  NumericMatrix loss_mat(N_data, max_segments);
+  
+  std::fill( loss_mat.begin(), loss_mat.end(), NumericVector::get_na());
+  
+  double *data_i_ptr = &data_i[0];
+  double *data_ptr = &data_vec[0];
+  double *loss_ptr = &loss_mat[0];
+  double *cum_ptr = &cum_vec[0];
+  double *last_loss_ptr = &last_loss[0];
+  double *sum_seg_ptr = &sum_segs[0];
+  double *poss_end_ptr = &possible_end[0];
+  
+  for (int index = 0; index < N_data; index++){
+    data_i_ptr[index] = index+1;
   }
-  for(int cluster_i = 0; cluster_i < clusters ; cluster_i++){
-    int random_integer = rand() % N_data;
-    centers_mat( cluster_i , _ ) = data_mat( random_integer , _ );
-  }
-  double error = 0;
-  double *data_ptr = &data_mat[0];
-  double *tot_cluster_ptr = &cluster_totals[0];
-  double *centers_ptr = &centers_mat[0];
-  double *mean_ptr = &mean_clusters[0];
-  double *error_ptr = NULL;
-  error_ptr = &error;
-  IntegerVector cluster_vec(N_data);
-  int *cluster_ptr = &cluster_vec[0];
-  int status = dynprog
-    (N_data,
-     clusters,
-     N_features,
-     data_ptr,
-     centers_ptr,
-     mean_ptr,
-     tot_cluster_ptr,
-     //inputs above, outputs below.
-     cluster_ptr,
-     error_ptr);
   
-  List kmeans_result = List::create(Named("cluster_ids") = cluster_vec);
+  int status = cumSum
+    ( N_data,
+      data_ptr,
+      // inputs above, outputs below
+      cum_ptr
+    );
+  
   if(status == ERROR_N_DATA_MUST_BE_POSITIVE){
     Rcpp::stop("N_data must be postiive");
   }
-  if(status == ERROR_N_CENTERS_MUST_BE_POSITIVE){
+  
+  status = loss
+    ( N_data,
+      data_i_ptr,
+      cum_ptr,
+        // inputs above, outputs below
+      last_loss_ptr
+    );
+  
+  loss_mat(_, 0 ) = last_loss;
+
+  status = dynprog
+    ( N_data,
+     max_segments,
+     poss_end_ptr,
+     last_loss_ptr,
+     sum_seg_ptr,
+     cum_ptr,
+     //inputs above, outputs below.
+     loss_ptr
+    );
+  
+  List dynprog_result = List::create(Named("loss") = loss_mat);
+  
+  if(status == ERROR_MAX_SEGMENTS_MUST_BE_POSITIVE){
     Rcpp::stop("N_centers must be postiive");
   }
-  return Rcpp::List::create(Rcpp::Named("cluster_id") = cluster_vec,
-                            Rcpp::Named("tot.withinss") = error);
+  
+  return loss_mat;
 }
